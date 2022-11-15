@@ -47,7 +47,12 @@ const ClientController = {
     try {
       const client = await Client.findOne({ where: { name: req.params.name } });
 
-      res.json(client);
+      if (client) {
+        res.json(client);
+      } else {
+        res.status(404).json({Error: "Não foi possível trazer o registro específico solicitado!"});
+        next();
+      }
     } catch (error) {
       res.status(500).json({
         Error: "Não foi possível trazer o registro específico solicitado!",
